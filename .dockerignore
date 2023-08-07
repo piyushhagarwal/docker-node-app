@@ -1,0 +1,5 @@
+#.dockerignore is a file in which we put the names of all the folders and files which we do not need to copy to the container or the image while building it.
+node_modules
+dockerfile
+.dockerignore
+
