@@ -1,13 +1,15 @@
-version: '3'
+# To build and start the container: "docker-compose up -d"
+# To stop and remove the container: "docker-compose down"
 
+version: '3'
 services:
   node-app:
     build: .
     ports:
       - "3000:3000"
     volumes:
-      - ./:/app
-      - /app/node_modules
+      - ./:/app            ##connects the host file system with the docker volumes filesystem
+      - /app/node_modules  ##annonymous volumes which prevents the deletion of node_modules after copy command which overwrites it.
     environment:
       - PORT=3000
     # env_file:
