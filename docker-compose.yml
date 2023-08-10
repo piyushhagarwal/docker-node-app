@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   node-app:
     build: .
@@ -6,15 +6,18 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+    depends_on:
+      - mongo #This means our node app is dependent on mongo because it can only run when the data base is connected.
+        #depend_on lets the mongo container run first
   mongo:
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - type: volume  # The type of volume (e.g., 'bind' or 'volume')
-        source: mongo-db  # The name of the volume
-        target: /data/db  # The target path inside the container
+      - type: volume # The type of volume (e.g., 'bind' or 'volume')
+        source: mongo-db # The name of the volume
+        target: /data/db # The target path inside the container
 
 volumes:
   mongo-db:

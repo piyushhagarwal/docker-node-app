@@ -1,20 +1,35 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const {
+  MONGO_PASSWORD,
+  MONGO_USER,
+  MONGO_IP,
+  MONGO_PORT,
+} = require("./config/config");
 
 const app = express();
 
-mongoose
-  .connect("mongodb://root:example@mongo:27017/?authSource=admin")
-  .then(() => console.log("Succesfully connected"))
-  .catch((e) => console.log(e));
+const PostsRouter = require("./routes/posts");
+const UsersRouter = require("./routes/users");
 
-// Serve static files from the "public" folder
-app.use(express.static("public"));
+app.use(express.json());
 
 // Define a basic route
 app.get("/", (req, res) => {
   res.send("Hello, Express ");
 });
+
+// routes
+
+app.use("/api/v1/posts", PostsRouter);
+app.use("/api/v1/users", UsersRouter);
+
+mongoose
+  .connect(
+    `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
+  )
+  .then(() => console.log("Succesfully connected to db"))
+  .catch((e) => console.log(e));
 
 const port = process.env.PORT || 3000; // Use environment variable or default to port 3000
 // Start the server
